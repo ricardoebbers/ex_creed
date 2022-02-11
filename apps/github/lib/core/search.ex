@@ -1,24 +1,25 @@
 defmodule Github.Core.Search do
-  use Tesla
+  alias Github.Core.Client
+  alias Github.Core.Query
 
-  @base_url "https://api.github.com/search"
-
-  def repositories(query) do
-    client()
-    |> Tesla.get("/repositories", query: parse_query(query))
+  def run() do
+    build_query()
+    |> Client.repositories()
   end
 
-  defp parse_query(_query) do
-    [q: "language:elixir", sort: "stars", order: "desc", page: 1, per_page: 100]
+  def count() do
+    build_query()
+    |> Query.limit(1)
+    |> Client.repositories()
+    |> case do
+      {:ok, body} -> body["total_count"]
+    end
   end
 
-  defp client() do
-    middleware = [
-      {Tesla.Middleware.BaseUrl, @base_url},
-      Tesla.Middleware.JSON,
-      {Tesla.Middleware.Headers, [{"Accept", "application/vnd.github.v3+json"}]}
-    ]
-
-    Tesla.client(middleware)
+  defp build_query() do
+    Query.new()
+    |> Query.not_archived()
+    |> Query.is_public()
+    |> Query.updated_last_twelve_months()
   end
 end
