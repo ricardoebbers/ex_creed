@@ -1,6 +1,6 @@
-defmodule GhSearch do
+defmodule Github do
   @moduledoc """
-  Documentation for `GhSearch`.
+  Documentation for `Github`.
   """
 
   @doc """
@@ -8,7 +8,7 @@ defmodule GhSearch do
 
   ## Examples
 
-      iex> GhSearch.hello()
+      iex> Github.hello()
       :world
 
   """

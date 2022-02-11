@@ -1,4 +1,4 @@
-defmodule GhSearch.Runtime.Application do
+defmodule Github.Runtime.Application do
   # See https://hexdocs.pm/elixir/Application.html
   # for more information on OTP Applications
   @moduledoc false
@@ -8,13 +8,13 @@ defmodule GhSearch.Runtime.Application do
   @impl true
   def start(_type, _args) do
     children = [
-      # Starts a worker by calling: GhSearch.Worker.start_link(arg)
-      # {GhSearch.Worker, arg}
+      # Starts a worker by calling: Github.Worker.start_link(arg)
+      # {Github.Worker, arg}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options
-    opts = [strategy: :one_for_one, name: GhSearch.Supervisor]
+    opts = [strategy: :one_for_one, name: Github.Supervisor]
     Supervisor.start_link(children, opts)
   end
 end
